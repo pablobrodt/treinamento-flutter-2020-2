@@ -1,4 +1,4 @@
-import 'package:exercicio3/pages/home.page.dart';
+import 'package:exercicio3/pages/register.page.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -15,7 +15,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: HomePage(),
+      home: RegisterPage(),
     );
   }
 }

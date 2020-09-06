@@ -1,6 +1,7 @@
 import 'package:exercicio10/enums/vehicle.enum.dart';
 import 'package:exercicio10/models/brand.model.dart';
 import 'package:exercicio10/models/vehicle.model.dart';
+import 'package:exercicio10/pages/year_model_list.page.dart';
 import 'package:exercicio10/services/vehicle.service.dart';
 import 'package:exercicio10/widgets/button_list.widget.dart';
 import 'package:exercicio10/widgets/loader.widget.dart';
@@ -65,19 +66,22 @@ class _VehicleListPageState extends State<VehicleListPage> {
     });
   }
 
-  Widget _buildList() {
+  _goToYearModelList(BuildContext context, VehicleModel vehicle) {
+    Navigator.of(context).pushNamed(
+      YearModelListPage.route,
+      arguments: YearModelListPageArgs(vehicleType: vehicleType, brand: brand, vehicle: vehicle),
+    );
+  }
+
+  Widget _buildList(BuildContext context) {
     if (filteredVehicles.length <= 0) {
       return Loader();
     }
 
     return ButtonList<VehicleModel>(
       items: filteredVehicles,
-      onButtonPressed: (vehicle) {
-        print(vehicle.name);
-      },
-      getButtonLabel: (vehicle) {
-        return vehicle.name;
-      },
+      onButtonPressed: (vehicle) => _goToYearModelList(context, vehicle),
+      getButtonLabel: (vehicle) => vehicle.name,
     );
   }
 
@@ -102,7 +106,7 @@ class _VehicleListPageState extends State<VehicleListPage> {
                 hintText: 'Buscar por ${brand.name}',
               ),
               SizedBox(height: 20),
-              _buildList(),
+              _buildList(context),
             ],
           ),
         ),

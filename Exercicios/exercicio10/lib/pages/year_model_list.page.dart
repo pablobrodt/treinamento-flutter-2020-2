@@ -1,4 +1,6 @@
 import 'package:exercicio10/enums/vehicle.enum.dart';
+import 'package:exercicio10/models/brand.model.dart';
+import 'package:exercicio10/models/vehicle.model.dart';
 import 'package:exercicio10/models/year_model.model.dart';
 import 'package:exercicio10/services/year_model.service.dart';
 import 'package:exercicio10/widgets/button_list.widget.dart';
@@ -7,16 +9,38 @@ import 'package:exercicio10/widgets/search_input.widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+class YearModelListPageArgs {
+  final Vehicle vehicleType;
+  final Brand brand;
+  final VehicleModel vehicle;
+
+  YearModelListPageArgs(
+      {@required this.vehicleType,
+      @required this.brand,
+      @required this.vehicle})
+      : assert(vehicleType != null),
+        assert(brand != null),
+        assert(vehicle != null);
+}
+
 class YearModelListPage extends StatefulWidget {
   static const route = '/year-model-list';
 
+  final YearModelListPageArgs args;
+
+  YearModelListPage(this.args);
+
   @override
-  _YearModelListPageState createState() => _YearModelListPageState();
+  _YearModelListPageState createState() => _YearModelListPageState(args);
 }
 
 class _YearModelListPageState extends State<YearModelListPage> {
   List<YearModel> yearModels = List<YearModel>();
   List<YearModel> filteredYearModels = List<YearModel>();
+
+  final YearModelListPageArgs args;
+
+  _YearModelListPageState(this.args);
 
   @override
   void initState() {
@@ -26,7 +50,10 @@ class _YearModelListPageState extends State<YearModelListPage> {
   }
 
   _getYearModels() async {
-    yearModels = await YearModelService.getYearModelList(Vehicle.CAR, 21, 4828);
+    int brandId = args.brand.id;
+    int vehicleId = args.vehicle.id;
+
+    yearModels = await YearModelService.getYearModelList(args.vehicleType, brandId, vehicleId);
 
     filteredYearModels = yearModels;
 
@@ -53,12 +80,8 @@ class _YearModelListPageState extends State<YearModelListPage> {
 
     return ButtonList<YearModel>(
       items: filteredYearModels,
-      onButtonPressed: (yearModel) {
-        print(yearModel.name);
-      },
-      getButtonLabel: (yearModel) {
-        return yearModel.name;
-      },
+      onButtonPressed: (yearModel) => print(yearModel.name),
+      getButtonLabel: (yearModel) => yearModel.name,
     );
   }
 
@@ -66,7 +89,7 @@ class _YearModelListPageState extends State<YearModelListPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('[Nome do veiculo]'),
+        title: Text('${args.brand.name} ${args.vehicle.name}'),
       ),
       body: Container(
         color: Color(0xFFF1F1F1),
@@ -80,7 +103,7 @@ class _YearModelListPageState extends State<YearModelListPage> {
                 onSubmitted: (text) {
                   _findVehicle(text);
                 },
-                hintText: 'Buscar por [nome do veiculo]',
+                hintText: 'Buscar por ${args.vehicle.name}',
               ),
               SizedBox(height: 20),
               _buildList(),

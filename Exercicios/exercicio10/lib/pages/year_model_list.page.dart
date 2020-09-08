@@ -1,7 +1,9 @@
 import 'package:exercicio10/enums/vehicle.enum.dart';
 import 'package:exercicio10/models/brand.model.dart';
+import 'package:exercicio10/models/fipe.model.dart';
 import 'package:exercicio10/models/vehicle.model.dart';
 import 'package:exercicio10/models/year_model.model.dart';
+import 'package:exercicio10/services/fipe.service.dart';
 import 'package:exercicio10/services/year_model.service.dart';
 import 'package:exercicio10/widgets/button_list.widget.dart';
 import 'package:exercicio10/widgets/loader.widget.dart';
@@ -73,6 +75,12 @@ class _YearModelListPageState extends State<YearModelListPage> {
     });
   }
 
+  _goToFipe(YearModel yearModel) async {
+    Fipe fipe = await FipeService.getFipe(args.vehicleType, args.brand.id, args.vehicle.id, yearModel.id);
+
+    print(fipe.toString());
+  }
+
   Widget _buildList() {
     if (filteredYearModels.length <= 0) {
       return Loader();
@@ -80,7 +88,7 @@ class _YearModelListPageState extends State<YearModelListPage> {
 
     return ButtonList<YearModel>(
       items: filteredYearModels,
-      onButtonPressed: (yearModel) => print(yearModel.name),
+      onButtonPressed: _goToFipe,
       getButtonLabel: (yearModel) => yearModel.name,
     );
   }

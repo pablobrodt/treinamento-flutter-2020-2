@@ -3,6 +3,7 @@ import 'package:exercicio10/models/brand.model.dart';
 import 'package:exercicio10/models/fipe.model.dart';
 import 'package:exercicio10/models/vehicle.model.dart';
 import 'package:exercicio10/models/year_model.model.dart';
+import 'package:exercicio10/pages/fipe.page.dart';
 import 'package:exercicio10/services/fipe.service.dart';
 import 'package:exercicio10/services/year_model.service.dart';
 import 'package:exercicio10/widgets/button_list.widget.dart';
@@ -55,7 +56,8 @@ class _YearModelListPageState extends State<YearModelListPage> {
     int brandId = args.brand.id;
     int vehicleId = args.vehicle.id;
 
-    yearModels = await YearModelService.getYearModelList(args.vehicleType, brandId, vehicleId);
+    yearModels = await YearModelService.getYearModelList(
+        args.vehicleType, brandId, vehicleId);
 
     filteredYearModels = yearModels;
 
@@ -75,10 +77,15 @@ class _YearModelListPageState extends State<YearModelListPage> {
     });
   }
 
-  _goToFipe(YearModel yearModel) async {
-    Fipe fipe = await FipeService.getFipe(args.vehicleType, args.brand.id, args.vehicle.id, yearModel.id);
-
-    print(fipe.toString());
+  _goToFipe(YearModel yearModel) {
+    Navigator.of(context).pushNamed(
+      FipePage.route,
+      arguments: FipePageArgs(
+          vehicleType: args.vehicleType,
+          brandId: args.brand.id,
+          vehicleId: args.vehicle.id,
+          yearModelId: yearModel.id),
+    );
   }
 
   Widget _buildList() {

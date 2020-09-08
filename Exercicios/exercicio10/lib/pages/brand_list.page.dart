@@ -82,6 +82,7 @@ class _BrandListPageState extends State<BrandListPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.lightBlueAccent,
         title: Text('Marcas'),
       ),
       body: Container(

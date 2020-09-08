@@ -104,6 +104,7 @@ class _YearModelListPageState extends State<YearModelListPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.lightBlueAccent,
         title: Text('${args.brand.name} ${args.vehicle.name}'),
       ),
       body: Container(

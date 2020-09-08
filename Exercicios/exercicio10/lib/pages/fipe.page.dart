@@ -96,6 +96,7 @@ class _FipePageState extends State<FipePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.lightBlueAccent,
         title: Text('Fipe'),
       ),
       body: Container(

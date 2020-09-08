@@ -89,6 +89,7 @@ class _VehicleListPageState extends State<VehicleListPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.lightBlueAccent,
         title: Text(brand.name),
       ),
       body: Container(
